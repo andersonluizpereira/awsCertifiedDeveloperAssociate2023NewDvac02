@@ -1,0 +1,1 @@
+# awsCertifiedDeveloperAssociate2023NewDvac02

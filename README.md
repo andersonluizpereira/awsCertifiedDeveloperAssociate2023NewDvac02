@@ -41,6 +41,8 @@ Try using a VPN service such as TunnelBear (https://www.tunnelbear.com/, it's fr
 
 * https://infrastructure.aws
 
+    
+
 # How to choose an AWS Region ?
 * Complince -> With Data governance and legal requirements: data never leaves a region without your explicit permission
 * Proximity -> To customers: reduce latency

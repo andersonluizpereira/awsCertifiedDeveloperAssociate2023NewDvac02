@@ -401,3 +401,31 @@ aws --endpoint-url=http://localhost:4566 iam attach-group-policy --group-name No
 ```
 
 Lembre-se de configurar o `--endpoint-url` para o LocalStack e substituir `NomeDoUsuario`, `NomeDoGrupo`, `SuaConta`, `NomeDaFila` e `NomeDoTopico` pelos valores específicos da sua configuração. Certifique-se de que o LocalStack esteja em execução e que você tenha o AWS CLI configurado para apontar para ele.
+
+No AWS Identity and Access Management (IAM), quando você configura uma política de senha para usuários, você pode especificar requisitos para garantir senhas fortes. Se você deseja definir uma política que evite que senhas se repitam e também usar uma expressão regular (regex) específica ao usar o LocalStack para emular ambientes AWS localmente, você pode seguir um exemplo semelhante ao abaixo.
+
+```bash
+aws iam create-policy --policy-name NoRepeatPasswordPolicy --policy-document '
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": "iam:ChangePassword",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalTag/NoRepeatPassword": "true"
+        }
+      }
+    }
+  ]
+}
+'
+```
+
+Este exemplo cria uma política chamada "NoRepeatPasswordPolicy" que nega a ação "iam:ChangePassword" quando a condição `aws:PrincipalTag/NoRepeatPassword` é "true". Você precisará aplicar essa política aos usuários que você deseja que ela afete.
+
+Ao criar ou atualizar usuários, você pode adicionar a tag "NoRepeatPassword" aos usuários desejados, marcando-os com essa condição específica. Isso pode ser feito ao criar ou atualizar usuários com o AWS CLI ou usando uma linguagem de programação que ofereça suporte à AWS SDK.
+
+Essa abordagem é um exemplo simplificado e pode precisar ser ajustada dependendo dos detalhes específicos do seu ambiente e dos requisitos de segurança que você precisa atender. Certifique-se de testar e adaptar conforme necessário para o seu caso de uso específico.

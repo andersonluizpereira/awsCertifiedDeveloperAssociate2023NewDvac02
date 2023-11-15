@@ -338,4 +338,66 @@ aws --endpoint-url=http://localhost:4566 iam attach-group-policy --group-name No
 
 Lembre-se de configurar o `--endpoint-url` para o LocalStack e substituir `NomeDoUsuario`, `NomeDoGrupo`, `SuaConta` e `NomeDaTabela` pelos valores específicos da sua configuração. Certifique-se de que o LocalStack esteja em execução e que você tenha o AWS CLI configurado para apontar para ele.
 
+********
 
+Certamente! Aqui estão alguns exemplos de comandos usando LocalStack para IAM e políticas relacionadas ao Amazon Simple Queue Service (SQS) e Amazon Simple Notification Service (SNS):
+
+### 1. **Criar uma Política para Acesso SQS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-policy --policy-name SQSFullAccess --policy-document file://sqs-policy.json
+```
+Conteúdo do arquivo `sqs-policy.json`:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sqs:*",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+### 2. **Criar um Usuário e Anexar uma Política para Acesso SQS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-user --user-name NomeDoUsuario
+aws --endpoint-url=http://localhost:4566 iam attach-user-policy --user-name NomeDoUsuario --policy-arn arn:aws:iam::SuaConta:policy/SQSFullAccess
+```
+
+### 3. **Criar uma Fila no SQS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name NomeDaFila
+```
+
+### 4. **Criar uma Política para Acesso SNS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-policy --policy-name SNSFullAccess --policy-document file://sns-policy.json
+```
+Conteúdo do arquivo `sns-policy.json`:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sns:*",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+### 5. **Criar um Tópico no SNS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 sns create-topic --name NomeDoTopico
+```
+
+### 6. **Criar um Grupo e Anexar uma Política para Acesso SNS no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-group --group-name NomeDoGrupo
+aws --endpoint-url=http://localhost:4566 iam attach-group-policy --group-name NomeDoGrupo --policy-arn arn:aws:iam::SuaConta:policy/SNSFullAccess
+```
+
+Lembre-se de configurar o `--endpoint-url` para o LocalStack e substituir `NomeDoUsuario`, `NomeDoGrupo`, `SuaConta`, `NomeDaFila` e `NomeDoTopico` pelos valores específicos da sua configuração. Certifique-se de que o LocalStack esteja em execução e que você tenha o AWS CLI configurado para apontar para ele.

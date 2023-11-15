@@ -297,6 +297,45 @@ aws --endpoint-url=http://localhost:4566 iam attach-group-policy --group-name No
 
 Lembre-se de configurar o `--endpoint-url` para o LocalStack e substituir `NomeDoUsuario`, `NomeDoGrupo` e `SuaConta` pelos valores específicos da sua configuração. Certifique-se de que o LocalStack esteja em execução e que você tenha o AWS CLI configurado para apontar para ele.
 
+**** DYNAMODB
 
+Certamente! Aqui estão exemplos de comandos usando LocalStack para IAM e políticas relacionadas ao DynamoDB, incluindo a criação de uma tabela no DynamoDB:
+
+### 1. **Criar uma Política para Acesso DynamoDB no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-policy --policy-name DynamoDBFullAccess --policy-document file://dynamodb-policy.json
+```
+Conteúdo do arquivo `dynamodb-policy.json`:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "dynamodb:*",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+### 2. **Criar um Usuário e Anexar uma Política para Acesso DynamoDB no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-user --user-name NomeDoUsuario
+aws --endpoint-url=http://localhost:4566 iam attach-user-policy --user-name NomeDoUsuario --policy-arn arn:aws:iam::SuaConta:policy/DynamoDBFullAccess
+```
+
+### 3. **Criar uma Tabela no DynamoDB no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 dynamodb create-table --table-name NomeDaTabela --attribute-definitions AttributeName=ID,AttributeType=S --key-schema AttributeName=ID,KeyType=HASH --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+```
+
+### 4. **Criar um Grupo e Anexar uma Política para Acesso DynamoDB no LocalStack:**
+```bash
+aws --endpoint-url=http://localhost:4566 iam create-group --group-name NomeDoGrupo
+aws --endpoint-url=http://localhost:4566 iam attach-group-policy --group-name NomeDoGrupo --policy-arn arn:aws:iam::SuaConta:policy/DynamoDBFullAccess
+```
+
+Lembre-se de configurar o `--endpoint-url` para o LocalStack e substituir `NomeDoUsuario`, `NomeDoGrupo`, `SuaConta` e `NomeDaTabela` pelos valores específicos da sua configuração. Certifique-se de que o LocalStack esteja em execução e que você tenha o AWS CLI configurado para apontar para ele.
 
 

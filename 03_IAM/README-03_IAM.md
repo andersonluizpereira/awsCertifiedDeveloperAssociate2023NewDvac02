@@ -429,3 +429,12 @@ Este exemplo cria uma política chamada "NoRepeatPasswordPolicy" que nega a aç�
 Ao criar ou atualizar usuários, você pode adicionar a tag "NoRepeatPassword" aos usuários desejados, marcando-os com essa condição específica. Isso pode ser feito ao criar ou atualizar usuários com o AWS CLI ou usando uma linguagem de programação que ofereça suporte à AWS SDK.
 
 Essa abordagem é um exemplo simplificado e pode precisar ser ajustada dependendo dos detalhes específicos do seu ambiente e dos requisitos de segurança que você precisa atender. Certifique-se de testar e adaptar conforme necessário para o seu caso de uso específico.
+
+# BEST PRATICES IAM
+### Don`t use the root account except for AWS setup
+### One physical user = One AWS user
+### Assign users to group and assign permissions to groups
+### Create a strong password policy
+### Use and enforce the use of Multi Factor Athentication (MFA)
+### Create and use roles for giving  permissions to AWS services
+### Use access keys for programmatic access (CLI/SDK)
